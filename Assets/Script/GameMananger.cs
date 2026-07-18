@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class GameMananger : MonoBehaviour
 {
+    [SerializeField]
     private int playerScore;
     public int PlayerScore { get { return playerScore; } set { playerScore = value; } }
 
