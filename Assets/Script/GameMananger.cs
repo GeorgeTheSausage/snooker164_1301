@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -15,6 +16,8 @@ public class GameMananger : MonoBehaviour
 
     [SerializeField]
     private GameObject cueBall;
+    [SerializeField]
+    private float xInput = 0f;
 
     public static GameMananger Instance;
 
@@ -36,9 +39,15 @@ public class GameMananger : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Keyboard.current.spaceKey.wasPressedThisFrame)
+        RotateBall();
+        if (Keyboard.current.spaceKey.wasPressedThisFrame)
             ShootBall();
-
+        if (Keyboard.current.aKey.isPressed || Keyboard.current.leftArrowKey.isPressed)
+            xInput = -0.1f;
+        else if (Keyboard.current.dKey.isPressed || Keyboard.current.rightAltKey.isPressed)
+            xInput = 0.1f;
+        else
+            xInput = 0f;
     }
 
     private void SetBall(BallColor col, int i)
@@ -54,5 +63,11 @@ public class GameMananger : MonoBehaviour
     {
         Rigidbody rb = cueBall.GetComponent<Rigidbody>();
         rb.AddRelativeForce(Vector3.forward * 20, ForceMode.Impulse);
+    }
+
+    private void RotateBall()
+    {
+        if (cueBall != null)
+            cueBall.transform.Rotate(new Vector3(0f,xInput,0f));
     }
 }
